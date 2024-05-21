@@ -16,7 +16,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="record in exerciseRecords" :key="record.id">
+                    <tr v-for="record in exerciseRecords" :key="record.id"
+                        @click="selectExerciseRecord(record.id, record)">
                         <td>{{ record.exerciseDate }}</td>
                         <td>{{ record.exerciseName }}</td>
                         <td>{{ record.exerciseWeight }}</td>
@@ -28,30 +29,60 @@
             </table>
         </div>
         <div class="right">
-            <form @submit.prevent="addExerciseRecord">
+            <div>
                 <h2>Add Exercise Record</h2>
-                <label for="date">Date:</label>
-                <input type="date" id="exerciseDate" v-model="exerciseRecord.exerciseDate" required>
-                <br>
-                <label for="name">Name:</label>
-                <input type="text" id="exerciseName" v-model="exerciseRecord.exerciseName" required>
-                <br>
-                <label for="weight">Weight:</label>
-                <input type="number" id="exerciseWeight" v-model="exerciseRecord.exerciseWeight" required>
-                <br>
-                <label for="repeats">Repeats:</label>
-                <input type="number" id="exerciseRepeatNumber" v-model="exerciseRecord.exerciseRepeatNumber" required>
-                <br>
-                <label for="sets">Sets:</label>
-                <input type="number" id="exerciseSetNumber" v-model="exerciseRecord.exerciseSetNumber" required>
-                <br>
-                <label for="remark">Remark:</label>
-                <input type="text" id="exerciseRemark" v-model="exerciseRecord.exerciseRemark">
-                <br>
-                <button submit>Add</button>
-            </form>
+                <form @submit.prevent="addExerciseRecord">
+                    <label for="date">Date:</label>
+                    <input type="date" id="exerciseDate" v-model="exerciseRecord.exerciseDate" required>
+                    <br>
+                    <label for="name">Name:</label>
+                    <input type="text" id="exerciseName" v-model="exerciseRecord.exerciseName" required>
+                    <br>
+                    <label for="weight">Weight:</label>
+                    <input type="number" id="exerciseWeight" v-model="exerciseRecord.exerciseWeight" required>
+                    <br>
+                    <label for="repeats">Repeats:</label>
+                    <input type="number" id="exerciseRepeatNumber" v-model="exerciseRecord.exerciseRepeatNumber"
+                        required>
+                    <br>
+                    <label for="sets">Sets:</label>
+                    <input type="number" id="exerciseSetNumber" v-model="exerciseRecord.exerciseSetNumber" required>
+                    <br>
+                    <label for="remark">Remark:</label>
+                    <input type="text" id="exerciseRemark" v-model="exerciseRecord.exerciseRemark">
+                    <br>
+                    <button submit>Add</button>
+                </form>
+            </div>
+            <div>
+                <h2>Exercise Record info</h2>
+                <form @submit.prevent="modifyExerciseRecord">
+                    <input disabled type="number" id="id" v-model="selectedRecord.id" required>
+                    <br>
+                    <label for="date">Date:</label>
+                    <input type="date" id="exerciseDate" v-model="selectedRecord.exerciseDate" required>
+                    <br>
+                    <label for="name">Name:</label>
+                    <input type="text" id="exerciseName" v-model="selectedRecord.exerciseName" required>
+                    <br>
+                    <label for="weight">Weight:</label>
+                    <input type="number" id="exerciseWeight" v-model="selectedRecord.exerciseWeight" required>
+                    <br>
+                    <label for="repeats">Repeats:</label>
+                    <input type="number" id="exerciseRepeatNumber" v-model="selectedRecord.exerciseRepeatNumber"
+                        required>
+                    <br>
+                    <label for="sets">Sets:</label>
+                    <input type="number" id="exerciseSetNumber" v-model="selectedRecord.exerciseSetNumber" required>
+                    <br>
+                    <label for="remark">Remark:</label>
+                    <input type="text" id="exerciseRemark" v-model="selectedRecord.exerciseRemark">
+                    <br>
+                    <button submit>update</button>
+                    <button @click="deleteExerciseRecord">delete</button>
+                </form>
+            </div>
         </div>
-        
     </div>
 </template>
 
@@ -62,19 +93,28 @@ export default {
         return {
             exerciseRecords: [], // Initialize the exercise  Records array
             exerciseRecord: {
-                // exerciseDate: '',
-                // exerciseName: '',
-                // exerciseWeight: 0,
-                // exerciseRepeatNumber: 0,
-                // exerciseSetNumber: 0,
-                // exerciseRemark: ''
-                exerciseDate: '2024-05-20',
-                exerciseName: '운동11',
-                exerciseWeight: 100,
-                exerciseRepeatNumber: 15,
-                exerciseSetNumber: 4,
-                exerciseRemark: '비고11'
-            }   
+                exerciseDate: '',
+                exerciseName: '',
+                exerciseWeight: 0,
+                exerciseRepeatNumber: 0,
+                exerciseSetNumber: 0,
+                exerciseRemark: ''
+                // exerciseDate: '2024-05-20',
+                // exerciseName: '운동11',
+                // exerciseWeight: 100,
+                // exerciseRepeatNumber: 15,
+                // exerciseSetNumber: 4,
+                // exerciseRemark: '비고11'
+            },
+            selectedRecord: {
+                id: 0,
+                exerciseDate: '',
+                exerciseName: '',
+                exerciseWeight: 0,
+                exerciseRepeatNumber: 0,
+                exerciseSetNumber: 0,
+                exerciseRemark: ''
+            }
         };
     },
     beforeMount() {
@@ -91,14 +131,22 @@ export default {
     methods: {
         init() {
             this.getExerciseRecords();
-            console.log("init");
         },  
+        getExerciseRecords() {
+            // Fetch exercise records from the server and assign them to exerciseRecords
+            // You can use an API call or any other method to retrieve the data
+            // For example, using axios:
+            axios.get('/api/exercise/getExercises')
+                .then(response => {
+                    console.log(response.data); // Log the response data for debugging
+                    this.exerciseRecords = response.data;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
         addExerciseRecord() {
             // Add the new exercise record to the exerciseRecords array
-            // this.exerciseRecords.push(this.exerciseRecord);
-            console.log(this.exerciseRecord);
-            console.log(JSON.stringify(this.exerciseRecord));
-        // axios.post('/api/exercise/addExerciseRecord', JSON.stringify(this.exerciseRecord))
             axios.post('/api/exercise/addExerciseRecord', JSON.stringify(this.exerciseRecord), {
                 headers: {
                     'Content-Type': 'application/json'
@@ -124,21 +172,46 @@ export default {
                 exerciseRemark: '비고11'
             };
         },
-        getExerciseRecords() {
-            // Fetch exercise records from the server and assign them to exerciseRecords
-            // You can use an API call or any other method to retrieve the data
-            // For example, using axios:
-            axios.get('/api/exercise/getExercises')
+        selectExerciseRecord(id, record) {
+            this.selectedRecord = record;           
+        },   
+        modifyExerciseRecord() {
+            // Modify the new exercise record to the exerciseRecords array
+            axios.put('/api/exercise/updateExerciseRecord', JSON.stringify(this.selectedRecord), {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
                 .then(response => {
-                    console.log(response.data); // Log the response data for debugging
-                    console.log(this.exerciseRecord);
-                    console.log(JSON.stringify(this.exerciseRecord));
-                    this.exerciseRecords = response.data;
+                    // Handle the response if needed
+                    if (response) {
+                        console.log("response : " + response);
+                        this.getExerciseRecords();
+                    }
                 })
                 .catch(error => {
                     console.error(error);
-                });
-        }        
+                });          
+        }, 
+        deleteExerciseRecord() {
+            // Delete the new exercise record to the exerciseRecords array
+            // post로 하는 이유 : delete는 body를 지원하지 않음
+            axios.post('/api/exercise/deleteExerciseRecord', JSON.stringify(this.selectedRecord), {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                // Handle the response if needed
+                if (response) {
+                    console.log("response : " + response);
+                    this.getExerciseRecords();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            }); 
+        }
     }
 };
 </script>
