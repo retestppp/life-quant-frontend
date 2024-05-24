@@ -35,7 +35,8 @@
       <ul>
         <router-link to="/hello">hello </router-link>
         <router-link to="/login">login </router-link>
-        <router-link to="/exercise">exercise</router-link>
+        <router-link to="/exercise">exercise </router-link>
+        <router-link to="/diet">diet</router-link>
       </ul>
     </div>
   </div>
