@@ -27,6 +27,13 @@
                     </tr>
                 </tbody>
             </table>
+            <br>
+            <button @click="analysisExerciseRecord">분석</button>
+            <div>
+                <h2>분석 결과</h2>
+                <p>분석 결과를 확인하세요</p>
+                <div class="result-box">{{ analysisResult }}</div>
+             </div>
         </div>
         <div class="right">
             <div>
@@ -81,7 +88,7 @@
                     <button submit>update</button>
                     <button @click="deleteExerciseRecord">delete</button>
                 </form>
-            </div>
+            </div>     
         </div>
     </div>
 </template>
@@ -91,6 +98,7 @@ import axios from 'axios';
 export default {    
     data() {
         return {
+            analysisResult: '',
             exerciseRecords: [], // Initialize the exercise  Records array
             exerciseRecord: {
                 exerciseDate: '',
@@ -132,6 +140,29 @@ export default {
         init() {
             this.getExerciseRecords();
         },  
+        analysisExerciseRecord() {
+            // 분석 로직 추가
+            console.log("분석 로직 추가");   
+
+            var prompt = '';
+            for (var record of this.exerciseRecords) {
+                prompt += record.exerciseDate + '에 ' + record.exerciseName + '을 ' + record.exerciseSetNumber + '세트 ' + record.exerciseRepeatNumber + '회씩 하였습니다. 중량은 ' + record.exerciseWeight + 'kg 입니다. \n';
+            }
+          
+            prompt += '이 운동 기록을 각 운동별 중량변화와 주기등을 자세하게 분석해 주세요';
+            axios.get('/api/bot/chat/chat', {
+                params: {
+                    prompt: prompt,
+                }
+                })
+                .then(response => {
+                    console.log(response.data); // Log the response data for debugging
+                    this.analysisResult = response.data;
+                })
+                .catch(error => {
+                    console.error(error);
+                });         
+        },
         getExerciseRecords() {
             // Fetch exercise records from the server and assign them to exerciseRecords
             // You can use an API call or any other method to retrieve the data
@@ -231,5 +262,12 @@ export default {
     width: 70%;
     float: right;
 }
-
+.result-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    height:auto;
+    overflow: auto;
+    white-space: pre-wrap;
+    text-align: justify; /* 텍스트를 오른쪽으로 정렬 */
+}
 </style>
