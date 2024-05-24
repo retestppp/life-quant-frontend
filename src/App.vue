@@ -5,18 +5,26 @@
 </template>
 -->
 <template>
+  <Header v-if="isIndex"></Header>
   <div id="app">
     <router-view></router-view>
   </div>
+  <Footer v-if="isIndex"></Footer>
 </template>
+
+
+
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
+import Header from './views/common/HeaderComponent.vue';
+import Footer from './views/common/FooterComponent.vue';
 
 export default {
   name: "App",
   components: {
-    // HelloWorld
+    Header,
+    Footer
   },
   beforeCreate() {
     console.log("");
@@ -85,6 +93,7 @@ export default {
   data() {
     return {
       data: "APP VUE",
+      isIndex: true
     };
   },
 
@@ -109,6 +118,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  min-height: calc(100vh - 150px); /* Adjust according to your header and footer height */
+  box-sizing: border-box;
 }
 </style>

@@ -53,8 +53,9 @@ export default {
   components: {
     // loginComponent,
     // helloComponent,
-  },
+  },  
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -74,8 +75,8 @@ a {
   color: #42b983;
 }
 .homebackImg {
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
 }
 .hello {
   display: flex;
