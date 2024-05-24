@@ -150,7 +150,7 @@ export default {
             }
           
             prompt += '이 운동 기록을 각 운동별 중량변화와 주기등을 자세하게 분석해 주세요';
-            axios.get('/api/bot/chat/chat', {
+            axios.get('/api/bot/chat/analysisExercise', {
                 params: {
                     prompt: prompt,
                 }
