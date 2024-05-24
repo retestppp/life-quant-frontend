@@ -8,7 +8,7 @@
                     <tr>
                         <th>Date</th>
                         <th>Name</th>
-                        <th>Weight</th>
+                        <th>Weight(kg)</th>
                         <th>Repeats</th>
                         <th>Sets</th>
                         <th>Remark</th>
