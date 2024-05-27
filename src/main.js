@@ -4,7 +4,7 @@ import router from './router/index.js'  // <-- 설치한 라우터를 가져와�
 import axios from 'axios';
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-axios.defaults.baseURL = "http://localhost:8081";
+axios.defaults.baseURL = "http://localhost:9081";
 // 애플리케이션 인스턴스 생성
 const app = createApp(App);
 

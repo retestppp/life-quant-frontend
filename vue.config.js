@@ -29,5 +29,6 @@ module.exports = {
         runtimeErrors: true,
       },
     },
+    port: 9080, // 포트 설정 추가
   },
 };
