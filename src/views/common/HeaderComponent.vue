@@ -11,10 +11,10 @@
       <router-link to="/diet" class="nav-link">Diet</router-link>
     </div>
     <div class="nav-button">
-      <router-link to="/hello" class="nav-link">Main</router-link>
+      <router-link to="/personInfo" class="nav-link">PersonInfo</router-link>
     </div>
     <div class="nav-button">
-      <router-link to="/hello" class="nav-link">Logout</router-link>
+      <router-link to="/hello" class="nav-link">Main</router-link>
     </div>
   </div>
 </template>

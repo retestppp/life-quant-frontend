@@ -5,6 +5,7 @@ import loginPage from '@/views/common/LoginPage.vue';
 import index from '@/components/index.vue';
 import exercise from '@/views/exercise/ExerciseRecord.vue';
 import diet from '@/views/diet/DietRecord.vue';
+import personInfo from '@/views/personInfo/PersonInfo.vue';
 // import index from '../../public/index.html';
 
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
         path: '/diet',
         name: 'diet',
         component: diet
+    },
+    {
+        path: '/personInfo',
+        name: 'personInfo',
+        component: personInfo
     },
 ];
 
