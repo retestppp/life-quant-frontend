@@ -132,7 +132,7 @@ export default {
             for (let record of this.personRecords) {
                 prompt += `${record.name} (${record.gender}), Height: ${record.height} cm, Weight: ${record.weight} kg, Age: ${record.age}\n`;
             }
-            prompt += "이사람의 신체정보를 분석하고 알맞은 운동을 추천해주세요";
+            prompt += "이사람의 신체정보를 분석하고 알맞은 운동을 추천해주세요 친구처럼 친근하게 부탁해요";
             axios
                 .get("/api/bot/chat/analysisPersonInfo", {
                     params: { prompt },

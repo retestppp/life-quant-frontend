@@ -140,7 +140,7 @@ export default {
             for (let record of this.dietRecords) {
                 prompt += `${record.dietDate}에 ${record.dietName}을(를) ${record.dietAmount}g 만큼 섭취하였습니다. 칼로리는 ${record.dietCal}kcal 입니다.\n`;
             }
-            prompt += "이 식단 기록을 분석해 주세요.";
+            prompt += "이 식단 기록을 분석해 주세요. 친구처럼 친근하게 부탁해요";
             axios
                 .get("/api/bot/chat/analysisDiet", {
                     params: { prompt },

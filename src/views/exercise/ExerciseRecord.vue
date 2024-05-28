@@ -142,7 +142,7 @@ export default {
       for (let record of this.exerciseRecords) {
         prompt += `${record.exerciseDate}에 ${record.exerciseName}을 ${record.exerciseSetNumber}세트 ${record.exerciseRepeatNumber}회씩 하였습니다. 중량은 ${record.exerciseWeight}kg 입니다.\n`;
       }
-      prompt += "이 운동 기록을 각 운동별 중량변화와 주기등을 자세하게 분석해 주세요";
+      prompt += "이 운동 기록을 각 운동별 중량변화와 주기등을 자세하게 분석해 주세요 친구처럼 친근하게 부탁해요";
       axios
         .get("/api/bot/chat/analysisExercise", {
           params: { prompt },
