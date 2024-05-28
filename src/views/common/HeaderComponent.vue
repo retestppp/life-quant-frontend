@@ -2,19 +2,29 @@
   <div id="nav">
     <div class="nav-text">EXERCISE DKBMC AI</div>
     <div class="nav-button">
-      <router-link to="/login" class="nav-link">Login</router-link>
+      <router-link to="/login" class="nav-link">
+        <el-text class="mx-1" size="large">Login</el-text>
+      </router-link>
     </div>
     <div class="nav-button">
-      <router-link to="/exercise" class="nav-link">Exercise</router-link>
+      <router-link to="/exercise" class="nav-link">
+        <el-text class="mx-1" size="large">Exercise</el-text>
+      </router-link>
     </div>
     <div class="nav-button">
-      <router-link to="/diet" class="nav-link">Diet</router-link>
+      <router-link to="/diet" class="nav-link">
+        <el-text class="mx-1" size="large">Diet</el-text>
+      </router-link>
     </div>
     <div class="nav-button">
-      <router-link to="/personInfo" class="nav-link">PersonInfo</router-link>
+      <router-link to="/personInfo" class="nav-link">
+        <el-text class="mx-1" size="large">PersonInfo</el-text>
+      </router-link>
     </div>
     <div class="nav-button">
-      <router-link to="/hello" class="nav-link">Main</router-link>
+      <router-link to="/hello" class="nav-link">
+        <el-text class="mx-1" size="large">Main</el-text>
+      </router-link>
     </div>
   </div>
 </template>
@@ -53,3 +63,5 @@
   text-decoration: none;
 }
 </style>
+<script setup>
+</script>
