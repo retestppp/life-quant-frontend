@@ -5,26 +5,30 @@
 </template>
 -->
 <template>
-  <Header v-if="isIndex"></Header>
   <div id="app">
     <router-view></router-view>
   </div>
-  <Footer v-if="isIndex"></Footer>
 </template>
 
 
 
 
 <script>
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+} from 'chart.js'
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 // import HelloWorld from './components/HelloWorld.vue'
-import Header from './views/common/HeaderComponent.vue';
-import Footer from './views/common/FooterComponent.vue';
-
 export default {
   name: "App",
   components: {
-    Header,
-    Footer
+
   },
   beforeCreate() {
     console.log("");

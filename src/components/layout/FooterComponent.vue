@@ -12,9 +12,9 @@
         <div class="footer-social">
           <strong>Social</strong>
           <div>
-            <a href="#"><img src="../../../src/assets/facebook-icon.png" alt="Facebook"></a>
-            <a href="#"><img src="../../../src/assets/blog-icon.png" alt="Blog"></a>
-            <a href="#"><img src="../../../src/assets/linkedin-icon.png" alt="LinkedIn"></a>
+            <a href="#"><img src="@/assets/facebook-icon.png" alt="Facebook"></a>
+            <a href="#"><img src="@/assets/blog-icon.png" alt="Blog"></a>
+            <a href="#"><img src="@/assets/linkedin-icon.png" alt="LinkedIn"></a>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link to="/hello">hello </router-link>
+        <!-- <router-link to="/hello">hello </router-link> -->
         <h1>Login</h1> 
         <form @submit="login">
             <label for="username">Username:</label>
