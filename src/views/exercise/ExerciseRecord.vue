@@ -1,62 +1,61 @@
 <template>
-    <div class="container">        
-        <div class="left">
-            <h1>Exercise Record List</h1>
-            <p>This is a list of exercise records.</p>
-            <div align="right">
-            <el-button plain @click="dialogFormVisible = true">
-             등록
-            </el-button>
-          <div>
-            <!-- Date Range Picker 시작-->
-            <div class="top-date-picker">
-              <el-date-picker
-                  v-model="dateRange"
-                  type="daterange"
-                  range-separator="To"
-                  start-placeholder="Start date"
-                  end-placeholder="End date"
-                  @change="fetchDietRecords"
-              >
-              </el-date-picker>
-            </div>
-            <div class="top-date-picker-button">
-              <el-button type="primary" @click="getDietRecordsWithCondition">검색</el-button>
-            </div>
-            <!-- Date Range Picker 끝-->
-            <div class="top-buttons" align="right">
-              <el-button plain @click="dialogFormVisible = true">
-                등록
-              </el-button>
-            </div>
-          </div>
-          <!-- 테이블 -->
-          <div>
-            <el-table
-                ref="multipleTableRef"
-                :data="exerciseRecords"
-                style="width: 100%"
-                @row-click="selectExerciseRecord"
-            >
-              <el-table-column
-                  v-for="column in exerciseTable"
-                  :key="column.valueKey"
-                  :prop="column.valueKey"
-                  :label="column.label"
-                  :width="column.width"
-              />
-            </el-table>
-          </div>
+  <div class="container">
+    <div class="left">
+      <h1>Exercise Record List</h1>
+      <p>This is a list of exercise records.</p>
 
-          <br>
-          <!-- 분석 -->
-          <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>
-          <div :hidden="analysVisible">
-            <el-card v-loading="analysLoading" body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
-              <template #header> 김*진 님의 운동 분석 결과</template>
-                     {{ analysisResult }}
-            </el-card>
-          </div>
+      <div>
+        <!-- Date Range Picker 시작-->
+        <div class="top-date-picker">
+          <el-date-picker
+              v-model="dateRange"
+              type="daterange"
+              range-separator="To"
+              start-placeholder="Start date"
+              end-placeholder="End date"
+              @change="fetchDietRecords"
+          >
+          </el-date-picker>
+        </div>
+        <div class="top-date-picker-button">
+          <el-button type="primary" @click="getDietRecordsWithCondition">검색</el-button>
+        </div>
+        <!-- Date Range Picker 끝-->
+        <div class="top-buttons" align="right">
+          <el-button plain @click="dialogFormVisible = true">
+            등록
+          </el-button>
+          <!--            <el-button @click="dialogFormUpdateVisible = true">수정</el-button>-->
+          <el-button @click="deleteData =true">삭제</el-button>
+        </div>
+      </div>
+      <!-- 테이블 -->
+      <div>
+        <el-table
+            ref="multipleTableRef"
+            :data="exerciseRecords"
+            style="width: 100%"
+            @row-click="selectExerciseRecord"
+        >
+          <el-table-column
+              v-for="column in exerciseTable"
+              :key="column.valueKey"
+              :prop="column.valueKey"
+              :label="column.label"
+              :width="column.width"
+          />
+        </el-table>
+      </div>
+
+      <br>
+      <!-- 분석 -->
+      <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>
+      <div :hidden="analysVisible">
+        <el-card v-loading="analysLoading"
+                 body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
+          <template #header> 김*진 님의 운동 분석 결과</template>
+          {{ analysisResult }}
+        </el-card>
       </div>
 
       <!-- 모달 창 -->
@@ -71,19 +70,20 @@
             />
           </el-form-item>
           <el-form-item label="Name">
-            <el-input v-model="exerciseRecord.exerciseName" />
+            <el-input v-model="exerciseRecord.exerciseName"/>
           </el-form-item>
           <el-form-item label="Weight(kg)">
-            <el-input v-model="exerciseRecord.exerciseWeight" />
+            <el-input v-model="exerciseRecord.exerciseWeight"/>
           </el-form-item>
           <el-form-item label="Repeat">
-            <el-input-number v-model="exerciseRecord.exerciseRepeatNumber" :min="1" :max="10" @change="handleRepeatNumber" />
+            <el-input-number v-model="exerciseRecord.exerciseRepeatNumber" :min="1" :max="10"
+                             @change="handleRepeatNumber"/>
           </el-form-item>
           <el-form-item label="Sets">
-            <el-input v-model="exerciseRecord.exerciseSetNumber" />
+            <el-input v-model="exerciseRecord.exerciseSetNumber"/>
           </el-form-item>
           <el-form-item label="Remark">
-            <el-input v-model="exerciseRecord.exerciseRemark" />
+            <el-input v-model="exerciseRecord.exerciseRemark"/>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -104,19 +104,20 @@
             />
           </el-form-item>
           <el-form-item label="Name">
-            <el-input v-model="selectedRecord.exerciseName" />
+            <el-input v-model="selectedRecord.exerciseName"/>
           </el-form-item>
           <el-form-item label="Weight(kg)">
-            <el-input v-model="selectedRecord.exerciseWeight" />
+            <el-input v-model="selectedRecord.exerciseWeight"/>
           </el-form-item>
           <el-form-item label="Repeat">
-            <el-input-number v-model="selectedRecord.exerciseRepeatNumber" :min="1" :max="10" @change="handleRepeatNumber" />
+            <el-input-number v-model="selectedRecord.exerciseRepeatNumber" :min="1" :max="10"
+                             @change="handleRepeatNumber"/>
           </el-form-item>
           <el-form-item label="Sets">
-            <el-input v-model="selectedRecord.exerciseSetNumber" />
+            <el-input v-model="selectedRecord.exerciseSetNumber"/>
           </el-form-item>
           <el-form-item label="Remark">
-            <el-input v-model="selectedRecord.exerciseRemark" />
+            <el-input v-model="selectedRecord.exerciseRemark"/>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -372,7 +373,6 @@ export default {
 .top-buttons {
   display: inline;
   padding: 5px;
-
 }
 
 </style>
