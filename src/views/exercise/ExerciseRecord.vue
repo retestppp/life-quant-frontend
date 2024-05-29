@@ -3,12 +3,10 @@
         <div class="left">
             <h1>Exercise Record List</h1>
             <p>This is a list of exercise records.</p>
-          <div align="right">
+            <div align="right">
             <el-button plain @click="dialogFormVisible = true">
              등록
             </el-button>
-<!--            <el-button @click="dialogFormUpdateVisible = true">수정</el-button>-->
-            <el-button @click="deleteData =true">삭제</el-button>
           </div>
           <!-- 테이블 -->
           <div>
@@ -18,7 +16,6 @@
                 style="width: 100%"
                 @row-click="selectExerciseRecord"
             >
-              <el-table-column type="selection" width="55" :fixed="deleteData"/>
               <el-table-column
                   v-for="column in exerciseTable"
                   :key="column.valueKey"
@@ -32,9 +29,6 @@
           <br>
           <!-- 분석 -->
           <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>
-<!--            <div>-->
-<!--                <div class="result-box">{{ analysisResult }}</div>-->
-<!--             </div>-->
           <div :hidden="analysVisible">
             <el-card v-loading="analysLoading" body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
               <template #header> 김*진 님의 운동 분석 결과</template>
@@ -106,6 +100,7 @@
         <template #footer>
           <div class="dialog-footer">
             <el-button @click="modifyExerciseRecord">수정</el-button>
+            <el-button @click="deleteExerciseRecord">삭제</el-button>
           </div>
         </template>
       </el-dialog>
@@ -115,6 +110,7 @@
 
 <script>
 import axios from "axios";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 export default {
   data() {
@@ -130,13 +126,6 @@ export default {
       analysisResult: "",
       exerciseRecords: [], // Initialize the exercise  Records array
       exerciseTable: [
-        {
-          label: "id",
-          valueKey: "id",
-          fixed: false,
-          disabled: true,
-          hidden: true
-        },
         {
           label: "Date",
           valueKey: "exerciseDate",
@@ -282,17 +271,39 @@ export default {
 
     },
     deleteExerciseRecord() {
-      axios
-        .post("/api/exercise/deleteExerciseRecord", JSON.stringify(this.selectedRecord), {
-          headers: { "Content-Type": "application/json" },
+      ElMessageBox.confirm(
+          '정말 삭제 하시겠습니까?',
+          {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning',
+          }
+      )
+        .then(() => {
+            axios
+            .post("/api/exercise/deleteExerciseRecord", JSON.stringify(this.selectedRecord), {
+              headers: { "Content-Type": "application/json" },
+            })
+            .then((response) => {
+              console.log(response.data);
+              this.getExerciseRecords();
+              this.dialogFormUpdateVisible = false;
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+
+            ElMessage({
+              type: 'success',
+              message: 'Delete completed',
+            })
         })
-        .then((response) => {
-          console.log(response.data);
-          this.getExerciseRecords();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+          .catch(() => {
+            ElMessage({
+              type: 'info',
+              message: 'Delete canceled',
+            })
+          })
     },
     handleRepeatNumber() {
       this.repeatNumber = this.repeatNumber +1;
