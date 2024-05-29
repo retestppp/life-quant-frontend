@@ -19,11 +19,13 @@ import {
   Title,
   Tooltip,
   Legend,
+  PointElement,
+  LineElement,
   BarElement,
   CategoryScale,
   LinearScale
 } from 'chart.js'
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+ChartJS.register(Title, Tooltip, Legend, PointElement,LineElement, BarElement, CategoryScale, LinearScale)
 // import HelloWorld from './components/HelloWorld.vue'
 export default {
   name: "App",
