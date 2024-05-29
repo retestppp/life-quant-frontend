@@ -2,17 +2,18 @@
   <div class="container">
     <div class="left">
       <h1>Diet Record List</h1>
-      <!-- Date Range Picker -->
-      <el-date-picker
-        v-model="dateRange"
-        type="daterange"
-        range-separator="To"
-        start-placeholder="Start date"
-        end-placeholder="End date"
-        @change="fetchDietRecords"
-      >
-      </el-date-picker>
-      <el-button type="primary" @click="getDietRecordsWithCondition">Search</el-button>
+<!-- Date Range Picker 시작-->
+<!--      <el-date-picker-->
+<!--        v-model="dateRange"-->
+<!--        type="daterange"-->
+<!--        range-separator="To"-->
+<!--        start-placeholder="Start date"-->
+<!--        end-placeholder="End date"-->
+<!--        @change="fetchDietRecords"-->
+<!--      >-->
+<!--      </el-date-picker>-->
+<!--      <el-button type="primary" @click="getDietRecordsWithCondition">Search</el-button>-->
+<!-- Date Range Picker 끝-->
       <!-- <el-button type="primary" @click="getDietRecordTrafficLight">신호등</el-button> -->
       <p>
         나의 식단 현황 상태:

@@ -3,12 +3,30 @@
         <div class="left">
             <h1>Exercise Record List</h1>
             <p>This is a list of exercise records.</p>
-          <div align="right">
-            <el-button plain @click="dialogFormVisible = true">
-             등록
-            </el-button>
-<!--            <el-button @click="dialogFormUpdateVisible = true">수정</el-button>-->
-            <el-button @click="deleteData =true">삭제</el-button>
+          <div>
+            <!-- Date Range Picker 시작-->
+            <div class="top-date-picker">
+              <el-date-picker
+                  v-model="dateRange"
+                  type="daterange"
+                  range-separator="To"
+                  start-placeholder="Start date"
+                  end-placeholder="End date"
+                  @change="fetchDietRecords"
+              >
+              </el-date-picker>
+            </div>
+            <div class="top-date-picker-button">
+              <el-button type="primary" @click="getDietRecordsWithCondition">검색</el-button>
+            </div>
+            <!-- Date Range Picker 끝-->
+            <div class="top-buttons" align="right">
+              <el-button plain @click="dialogFormVisible = true">
+                등록
+              </el-button>
+              <!--            <el-button @click="dialogFormUpdateVisible = true">수정</el-button>-->
+              <el-button @click="deleteData =true">삭제</el-button>
+            </div>
           </div>
           <!-- 테이블 -->
           <div>
@@ -119,6 +137,8 @@ import axios from "axios";
 export default {
   data() {
     return {
+      // 테이블 위 date picker
+      dateRange : '',
       // 폼 여부
       dialogFormVisible: false,
       dialogFormUpdateVisible: false,
@@ -323,5 +343,20 @@ export default {
     padding: 10px;
 }
 
+.top-date-picker {
+  display: inline;
+  padding: 5px;
+}
+
+.top-date-picker-button {
+  display: inline;
+  padding: 5px;
+}
+
+.top-buttons {
+  display: inline;
+  padding: 5px;
+
+}
 
 </style>
