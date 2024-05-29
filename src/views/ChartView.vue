@@ -4,19 +4,77 @@
         <LineChart :labels="barLabels" :datasets="barDatasets" :options="barOptions" />
         <LineChart :labels="twoWeekLabels" :datasets="calorieDatasets" :options="barOptions" />
         <BarChart :labels="twoWeekLabels" :datasets="calorieDatasets" :options="barOptions" />
+        <MixedChart :chart-data="datacollection" :options="barOptions"></MixedChart>
+        <MixedChart :chart-data="caloriePerDayData" :options="options" :line-value="2000" :line-label="'Recommended Calorie'"></MixedChart>
     </div>
 </template>
 
 <script>
 import BarChart from '@/components/chart/BarChartComponent.vue'
 import LineChart from '@/components/chart/LineChartComponent.vue'
+import MixedChart from '@/components/chart/MixedChart.vue'
     export default {
         components: {
             BarChart,
-            LineChart
+            LineChart,
+            MixedChart
         },
         data() {
     return {
+      caloriePerDayData: {
+        datasets: [
+          // {
+          //   type: 'line',
+          //   label: 'Line Dataset',
+          //   data: [2000, 2000, 2000, 2000,2000,2000,2000],
+          //   borderColor: 'rgba(75, 192, 192, 1)',
+          //   borderWidth: 2,
+          //   fill: false
+          // },
+          {
+            type: 'bar',
+            label: 'Bar Dataset',
+            data: [1800, 2500, 2100, 1989],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          }
+        ],
+        labels: this.generateLast7Days()
+        // labels: this.generateLast1Month()
+      },
+      datacollection: {
+        datasets: [
+          {
+            type: 'line',
+            label: 'Line Dataset',
+            data: [10, 20, 30, 40],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: false
+          },
+          {
+            type: 'bar',
+            label: 'Bar Dataset',
+            data: [30, 20, 10, 40],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          }
+        ],
+        labels: ['January', 'February', 'March', 'April']
+      },
+      options: {
+        responsive: true,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      },
+      
         twoWeekLabels :  this.generateLast14Days() ,
         calorieDatasets: [{data:[1800,1900,,2000,,2500,2300,1800,1500]}],
         barLabels: [
@@ -82,9 +140,18 @@ import LineChart from '@/components/chart/LineChartComponent.vue'
       }
       return dates;
     },
+    generateLast7Days() {
+      const dates = [];
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        dates.push(date.toISOString().split('T')[0]);
+      }
+      return dates;
+    },
     generateLast1Month() {
       const dates = [];
-      for (let i = 13; i >= 0; i--) {
+      for (let i = 30; i >= 0; i--) {
         const date = new Date();
         date.setDate(date.getDate() - i);
         dates.push(date.toISOString().split('T')[0]);
