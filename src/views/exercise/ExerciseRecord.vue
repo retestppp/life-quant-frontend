@@ -3,114 +3,184 @@
         <div class="left">
             <h1>Exercise Record List</h1>
             <p>This is a list of exercise records.</p>
-            <table class="exercise-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Weight(kg)</th>
-                        <th>Repeats</th>
-                        <th>Sets</th>
-                        <th>Remark</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="record in exerciseRecords" :key="record.id"
-                        @click="selectExerciseRecord(record.id, record)">
-                        <td>{{ record.exerciseDate }}</td>
-                        <td>{{ record.exerciseName }}</td>
-                        <td>{{ record.exerciseWeight }}</td>
-                        <td>{{ record.exerciseRepeatNumber }}</td>
-                        <td>{{ record.exerciseSetNumber }}</td>
-                        <td>{{ record.exerciseRemark }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-            <button class="btn btn-primary" @click="analysisExerciseRecord">분석</button>
-            <div>
-                <h2>분석 결과</h2>
-                <p>분석 결과를 확인하세요</p>
-                <div class="result-box">{{ analysisResult }}</div>
-             </div>
-        </div>
-        <div class="right">
-            <div class="form-container">
-                <h2>Add Exercise Record</h2>
-                <form @submit.prevent="addExerciseRecord">
-                    <div class="form-group">
-                        <label for="date">Date:</label>
-                        <input type="date" id="exerciseDate" v-model="exerciseRecord.exerciseDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="exerciseName" v-model="exerciseRecord.exerciseName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="weight">Weight:</label>
-                        <input type="number" id="exerciseWeight" v-model="exerciseRecord.exerciseWeight" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="repeats">Repeats:</label>
-                        <input type="number" id="exerciseRepeatNumber" v-model="exerciseRecord.exerciseRepeatNumber" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="sets">Sets:</label>
-                        <input type="number" id="exerciseSetNumber" v-model="exerciseRecord.exerciseSetNumber" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="remark">Remark:</label>
-                        <input type="text" id="exerciseRemark" v-model="exerciseRecord.exerciseRemark">
-                    </div>
-                    <button class="btn btn-success" type="submit">Add</button>
-                </form>
-            </div>
-            <div class="form-container">
-                <h2>Exercise Record Info</h2>
-                <form @submit.prevent="modifyExerciseRecord">
-                    <div class="form-group-id">
-                        <input disabled type="number" id="id" v-model="selectedRecord.id" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Date:</label>
-                        <input type="date" id="exerciseDate" v-model="selectedRecord.exerciseDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="exerciseName" v-model="selectedRecord.exerciseName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="weight">Weight:</label>
-                        <input type="number" id="exerciseWeight" v-model="selectedRecord.exerciseWeight" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="repeats">Repeats:</label>
-                        <input type="number" id="exerciseRepeatNumber" v-model="selectedRecord.exerciseRepeatNumber" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="sets">Sets:</label>
-                        <input type="number" id="exerciseSetNumber" v-model="selectedRecord.exerciseSetNumber" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="remark">Remark:</label>
-                        <input type="text" id="exerciseRemark" v-model="selectedRecord.exerciseRemark">
-                    </div>
-                    <button class="btn btn-primary" type="submit">Update</button>
-                    <button class="btn btn-danger" @click="deleteExerciseRecord">Delete</button>
-                </form>
-            </div>     
-        </div>
+          <div align="right">
+            <el-button plain @click="dialogFormVisible = true">
+             등록
+            </el-button>
+<!--            <el-button @click="dialogFormUpdateVisible = true">수정</el-button>-->
+            <el-button @click="deleteData =true">삭제</el-button>
+          </div>
+          <!-- 테이블 -->
+          <div>
+            <el-table
+                ref="multipleTableRef"
+                :data="exerciseRecords"
+                style="width: 100%"
+                @row-click="selectExerciseRecord"
+            >
+              <el-table-column type="selection" width="55" :fixed="deleteData"/>
+              <el-table-column
+                  v-for="column in exerciseTable"
+                  :key="column.valueKey"
+                  :prop="column.valueKey"
+                  :label="column.label"
+                  :width="column.width"
+              />
+            </el-table>
+          </div>
+
+          <br>
+          <!-- 분석 -->
+          <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>
+<!--            <div>-->
+<!--                <div class="result-box">{{ analysisResult }}</div>-->
+<!--             </div>-->
+          <div :hidden="analysVisible">
+            <el-card v-loading="analysLoading" body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
+              <template #header> 김*진 님의 운동 분석 결과</template>
+                     {{ analysisResult }}
+            </el-card>
+          </div>
+      </div>
+
+      <!-- 모달 창 -->
+      <el-dialog v-model="dialogFormVisible" title="운동 기록 등록" width="500">
+        <el-form label-width="auto">
+          <el-form-item label="Date">
+            <el-date-picker
+                v-model="exerciseRecord.exerciseDate"
+                type="date"
+                placeholder="Pick a date"
+                clearable
+            />
+          </el-form-item>
+          <el-form-item label="Name">
+            <el-input v-model="exerciseRecord.exerciseName" />
+          </el-form-item>
+          <el-form-item label="Weight(kg)">
+            <el-input v-model="exerciseRecord.exerciseWeight" />
+          </el-form-item>
+          <el-form-item label="Repeat">
+            <el-input-number v-model="exerciseRecord.exerciseRepeatNumber" :min="1" :max="10" @change="handleRepeatNumber" />
+          </el-form-item>
+          <el-form-item label="Sets">
+            <el-input v-model="exerciseRecord.exerciseSetNumber" />
+          </el-form-item>
+          <el-form-item label="Remark">
+            <el-input v-model="exerciseRecord.exerciseRemark" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="addExerciseRecord">추가</el-button>
+          </div>
+        </template>
+      </el-dialog>
+
+      <el-dialog v-model="dialogFormUpdateVisible" title="운동 기록 수정" width="500">
+        <el-form label-width="auto">
+          <el-form-item label="Date">
+            <el-date-picker
+                v-model="selectedRecord.exerciseDate"
+                type="date"
+                placeholder="Pick a date"
+                clearable
+            />
+          </el-form-item>
+          <el-form-item label="Name">
+            <el-input v-model="selectedRecord.exerciseName" />
+          </el-form-item>
+          <el-form-item label="Weight(kg)">
+            <el-input v-model="selectedRecord.exerciseWeight" />
+          </el-form-item>
+          <el-form-item label="Repeat">
+            <el-input-number v-model="selectedRecord.exerciseRepeatNumber" :min="1" :max="10" @change="handleRepeatNumber" />
+          </el-form-item>
+          <el-form-item label="Sets">
+            <el-input v-model="selectedRecord.exerciseSetNumber" />
+          </el-form-item>
+          <el-form-item label="Remark">
+            <el-input v-model="selectedRecord.exerciseRemark" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="modifyExerciseRecord">수정</el-button>
+          </div>
+        </template>
+      </el-dialog>
     </div>
 </template>
 
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
+      // 폼 여부
+      dialogFormVisible: false,
+      dialogFormUpdateVisible: false,
+      deleteData: false,
+      analysVisible: true,
+      analysLoading: true,
+      // 반복 횟수
+      repeatNumber: 0,
       analysisResult: "",
       exerciseRecords: [], // Initialize the exercise  Records array
+      exerciseTable: [
+        {
+          label: "id",
+          valueKey: "id",
+          fixed: false,
+          disabled: true,
+          hidden: true
+        },
+        {
+          label: "Date",
+          valueKey: "exerciseDate",
+          fixed: true,
+          disabled: true,
+          hidden: false
+        },
+        {
+          label: "Name",
+          valueKey: "exerciseName",
+          fixed: true,
+          disabled: true,
+          hidden: false
+        },
+        {
+          label: "Weight(kg)",
+          valueKey: "exerciseWeight",
+          fixed: true,
+          disabled: true,
+          hidden: false
+        },
+        {
+          label: "Repeats",
+          valueKey: "exerciseRepeatNumber",
+          fixed: true,
+          disabled: true,
+          hidden: false
+        },
+        {
+          label: "Sets",
+          valueKey: "exerciseSetNumber",
+          fixed: true,
+          disabled: true,
+          hidden: false
+        },
+        {
+          label: "Remark",
+          valueKey: "exerciseRemark",
+          fixed: true,
+          disabled: true,
+          hidden: false
+        },
+
+      ],
       exerciseRecord: {
         exerciseDate: "",
         exerciseName: "",
@@ -138,6 +208,7 @@ export default {
         this.getExerciseRecords();
     },
     analysisExerciseRecord() {
+      this.analysVisible = false;
       let prompt = "";
       for (let record of this.exerciseRecords) {
         prompt += `${record.exerciseDate}에 ${record.exerciseName}을 ${record.exerciseSetNumber}세트 ${record.exerciseRepeatNumber}회씩 하였습니다. 중량은 ${record.exerciseWeight}kg 입니다.\n`;
@@ -148,6 +219,7 @@ export default {
           params: { prompt },
         })
         .then((response) => {
+          this.analysLoading = false;
           this.analysisResult = response.data;
         })
         .catch((error) => {
@@ -165,6 +237,8 @@ export default {
         });
     },
     addExerciseRecord() {
+      this.exerciseRecord.exerciseDate = this.formatDate(this.exerciseRecord.exerciseDate);
+      alert(this.exerciseRecord.exerciseDate);
       axios
         .post("/api/exercise/addExerciseRecord", JSON.stringify(this.exerciseRecord), {
           headers: { "Content-Type": "application/json" },
@@ -176,6 +250,7 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+
       this.exerciseRecord = {
         exerciseDate: "",
         exerciseName: "",
@@ -184,11 +259,15 @@ export default {
         exerciseSetNumber: 0,
         exerciseRemark: "",
       };
+
+      this.dialogFormVisible = false;
     },
-    selectExerciseRecord(id, record) {
+    selectExerciseRecord(record) {
+      this.dialogFormUpdateVisible = true;
       this.selectedRecord = record;
     },
     modifyExerciseRecord() {
+      this.dialogFormUpdateVisible = false;
       axios
         .put("/api/exercise/updateExerciseRecord", JSON.stringify(this.selectedRecord), {
           headers: { "Content-Type": "application/json" },
@@ -200,6 +279,7 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+
     },
     deleteExerciseRecord() {
       axios
@@ -213,6 +293,17 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+    },
+    handleRepeatNumber() {
+      this.repeatNumber = this.repeatNumber +1;
+    },
+
+    formatDate(date) {
+      const d = new Date(date);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     },
   },
 };
@@ -233,113 +324,4 @@ export default {
 }
 
 
-.exercise-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-.exercise-table th, .exercise-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-.exercise-table th {
-    background-color: #f2f2f2;
-}
-
-.exercise-table tr:hover {
-    background-color: #f1f1f1;
-    cursor: pointer;
-}
-
-.form-container {
-    margin-bottom: 20px;
-    border: #007BFF 1px solid;
-    padding: 10px;
-}
-
-.form-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.form-group-id {
-    visibility: hidden;
-}
-.form-group label {
-    width: 100px; /* Label width */
-    margin-right: 10px;
-    text-align: left
-}
-
-.form-group input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-button[type="submit"], .btn {
-    width: 48%;
-    margin-right: 4%;
-}
-
-button[type="submit"]:last-child, .btn:last-child {
-    margin-right: 0;
-}
-
-.btn-primary {
-    background-color: #007BFF;
-}
-
-.btn-primary:hover {
-    background-color: #0069d9;
-}
-
-.btn-danger {
-    background-color: #DC3545;
-}
-
-.btn-danger:hover {
-    background-color: #C82333;
-}
-
-.result-box {
-    border: 1px solid #ccc;
-    padding: 10px;
-    height: auto;
-    overflow: auto;
-    white-space: pre-wrap;
-    text-align: justify;
-    background-color: #f9f9f9;
-    margin-top: 10px;
-}
-
-.nav-link {
-    display: inline-block;
-    margin-bottom: 20px;
-    font-size: 18px;
-    color: #007BFF;
-    text-decoration: none;
-}
-
-.nav-link:hover {
-    text-decoration: underline;
-}
 </style>
