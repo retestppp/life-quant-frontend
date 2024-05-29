@@ -12,6 +12,7 @@
                         <th>Height (cm)</th>
                         <th>Weight (kg)</th>
                         <th>Age</th>
+                        <th>AdjustCal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,6 +23,7 @@
                         <td>{{ record.height }}</td>
                         <td>{{ record.weight }}</td>
                         <td>{{ record.age }}</td>
+                        <td>{{ record.adjustCal }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -108,7 +110,8 @@ export default {
                 gender: '',
                 height: 0.0,
                 weight: 0.0,
-                age: 0
+                age: 0,
+                adjustCal: 0
             },
             selectedRecord: {
                 id: 0,
@@ -116,7 +119,8 @@ export default {
                 gender: '',
                 height: 0.0,
                 weight: 0.0,
-                age: 0
+                age: 0,
+                adjustCal: 0
             }
         };
     },
