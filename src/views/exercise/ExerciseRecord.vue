@@ -305,8 +305,13 @@ export default {
       this.dialogFormVisible = false;
     },
     selectExerciseRecord(record) {
+      this.selectedRecord.exerciseDate = record.exerciseDate;
+      this.selectedRecord.exerciseName = record.exerciseName;
+      this.selectedRecord.exerciseWeight = record.exerciseWeight;
+      this.selectedRecord.exerciseRepeatNumber = record.exerciseRepeatNumber;
+      this.selectedRecord.exerciseSetNumber = record.exerciseSetNumber;
+      this.selectedRecord.exerciseRemark = record.exerciseRemark;
       this.dialogFormUpdateVisible = true;
-      this.selectedRecord = record;
     },
     modifyExerciseRecord() {
       this.dialogFormUpdateVisible = false;
