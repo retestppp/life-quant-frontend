@@ -52,11 +52,7 @@
       <div class="analys-container">
         <el-card v-loading="analysLoading"
                  body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
-          <template #header> 김*진 님의 운동 분석 결과
-            <el-button plain @click="dialogFormVisible = true" class="top-buttons">
-              등록
-            </el-button>
-          </template>
+          <template #header> {{userName}} 님의 운동 분석 결과 </template>
           {{ analysisResult }}
         </el-card>
       </div>
@@ -148,8 +144,11 @@ export default {
       dialogFormVisible: false,
       dialogFormUpdateVisible: false,
       deleteData: false,
+      // 분석화면 폼 여부
       analysVisible: true,
+      // 분석화면 로딩
       analysLoading: true,
+      userName: "",
       // 반복 횟수
       repeatNumber: 0,
       analysisResult: "",
@@ -224,6 +223,7 @@ export default {
   methods: {
     init() {
       this.getExerciseRecords();
+      this.getPersonRecords();
     },
     analysisExerciseRecord() {
       this.analysVisible = false;
@@ -368,6 +368,15 @@ export default {
       const month = String(d.getMonth() + 1).padStart(2, '0');
       const day = String(d.getDate()).padStart(2, '0');
       return `${year}-${month}-${day}`;
+    },
+    getPersonRecords() {
+      axios.get('/api/personInfo/getPersonInfos')
+          .then(response => {
+            this.userName = response.data[0].name;
+          })
+          .catch(error => {
+            console.error(error);
+          });
     },
   },
 };
