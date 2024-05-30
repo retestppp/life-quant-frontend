@@ -9,9 +9,9 @@ module.exports = defineConfig({
   devServer: {
     client: {
       overlay: {
-        errors: true,
+        errors: false,
         warnings: false,
-        runtimeErrors: true,
+        runtimeErrors: false,
       },
     },
     port: 9080, // 포트 설정 추가
