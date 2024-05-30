@@ -14,16 +14,8 @@
 
 
 <script>
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-} from 'chart.js'
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, LineElement, BarElement, CategoryScale, LinearScale, LineController, BarController } from 'chart.js';
+ChartJS.register(Title, Tooltip, Legend, PointElement,LineElement, BarElement, CategoryScale, LinearScale, LineController, BarController)
 // import HelloWorld from './components/HelloWorld.vue'
 export default {
   name: "App",

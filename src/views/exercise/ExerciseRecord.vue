@@ -3,9 +3,7 @@
     <div class="left">
       <h1>Exercise Record List</h1>
       <p>This is a list of exercise records.</p>
-
       <div>
-        <!-- Date Range Picker 시작-->
         <div class="top-date-picker">
           <el-date-picker
               v-model="dateRange"
@@ -29,6 +27,7 @@
           <el-button @click="deleteData =true">삭제</el-button>
         </div>
       </div>
+
       <!-- 테이블 -->
       <div>
         <el-table
@@ -57,78 +56,79 @@
           {{ analysisResult }}
         </el-card>
       </div>
-
-      <!-- 모달 창 -->
-      <el-dialog v-model="dialogFormVisible" title="운동 기록 등록" width="500">
-        <el-form label-width="auto">
-          <el-form-item label="Date">
-            <el-date-picker
-                v-model="exerciseRecord.exerciseDate"
-                type="date"
-                placeholder="Pick a date"
-                clearable
-            />
-          </el-form-item>
-          <el-form-item label="Name">
-            <el-input v-model="exerciseRecord.exerciseName"/>
-          </el-form-item>
-          <el-form-item label="Weight(kg)">
-            <el-input v-model="exerciseRecord.exerciseWeight"/>
-          </el-form-item>
-          <el-form-item label="Repeat">
-            <el-input-number v-model="exerciseRecord.exerciseRepeatNumber" :min="1" :max="10"
-                             @change="handleRepeatNumber"/>
-          </el-form-item>
-          <el-form-item label="Sets">
-            <el-input v-model="exerciseRecord.exerciseSetNumber"/>
-          </el-form-item>
-          <el-form-item label="Remark">
-            <el-input v-model="exerciseRecord.exerciseRemark"/>
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <div class="dialog-footer">
-            <el-button @click="addExerciseRecord">추가</el-button>
-          </div>
-        </template>
-      </el-dialog>
-
-      <el-dialog v-model="dialogFormUpdateVisible" title="운동 기록 수정" width="500">
-        <el-form label-width="auto">
-          <el-form-item label="Date">
-            <el-date-picker
-                v-model="selectedRecord.exerciseDate"
-                type="date"
-                placeholder="Pick a date"
-                clearable
-            />
-          </el-form-item>
-          <el-form-item label="Name">
-            <el-input v-model="selectedRecord.exerciseName"/>
-          </el-form-item>
-          <el-form-item label="Weight(kg)">
-            <el-input v-model="selectedRecord.exerciseWeight"/>
-          </el-form-item>
-          <el-form-item label="Repeat">
-            <el-input-number v-model="selectedRecord.exerciseRepeatNumber" :min="1" :max="10"
-                             @change="handleRepeatNumber"/>
-          </el-form-item>
-          <el-form-item label="Sets">
-            <el-input v-model="selectedRecord.exerciseSetNumber"/>
-          </el-form-item>
-          <el-form-item label="Remark">
-            <el-input v-model="selectedRecord.exerciseRemark"/>
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <div class="dialog-footer">
-            <el-button @click="modifyExerciseRecord">수정</el-button>
-            <el-button @click="deleteExerciseRecord">삭제</el-button>
-          </div>
-        </template>
-      </el-dialog>
     </div>
+
+    <!-- 모달 창 -->
+    <el-dialog v-model="dialogFormVisible" title="운동 기록 등록" width="500">
+      <el-form label-width="auto">
+        <el-form-item label="Date">
+          <el-date-picker
+              v-model="exerciseRecord.exerciseDate"
+              type="date"
+              placeholder="Pick a date"
+              clearable
+          />
+        </el-form-item>
+        <el-form-item label="Name">
+          <el-input v-model="exerciseRecord.exerciseName"/>
+        </el-form-item>
+        <el-form-item label="Weight(kg)">
+          <el-input v-model="exerciseRecord.exerciseWeight"/>
+        </el-form-item>
+        <el-form-item label="Repeat">
+          <el-input-number v-model="exerciseRecord.exerciseRepeatNumber" :min="1" :max="10"
+                           @change="handleRepeatNumber"/>
+        </el-form-item>
+        <el-form-item label="Sets">
+          <el-input v-model="exerciseRecord.exerciseSetNumber"/>
+        </el-form-item>
+        <el-form-item label="Remark">
+          <el-input v-model="exerciseRecord.exerciseRemark"/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="addExerciseRecord">추가</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
+    <el-dialog v-model="dialogFormUpdateVisible" title="운동 기록 수정" width="500">
+      <el-form label-width="auto">
+        <el-form-item label="Date">
+          <el-date-picker
+              v-model="selectedRecord.exerciseDate"
+              type="date"
+              placeholder="Pick a date"
+              clearable
+          />
+        </el-form-item>
+        <el-form-item label="Name">
+          <el-input v-model="selectedRecord.exerciseName"/>
+        </el-form-item>
+        <el-form-item label="Weight(kg)">
+          <el-input v-model="selectedRecord.exerciseWeight"/>
+        </el-form-item>
+        <el-form-item label="Repeat">
+          <el-input-number v-model="selectedRecord.exerciseRepeatNumber" :min="1" :max="10"
+                           @change="handleRepeatNumber"/>
+        </el-form-item>
+        <el-form-item label="Sets">
+          <el-input v-model="selectedRecord.exerciseSetNumber"/>
+        </el-form-item>
+        <el-form-item label="Remark">
+          <el-input v-model="selectedRecord.exerciseRemark"/>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="modifyExerciseRecord">수정</el-button>
+          <el-button @click="deleteExerciseRecord">삭제</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
+  <!--  </div>-->
 </template>
 
 
@@ -140,7 +140,7 @@ export default {
   data() {
     return {
       // 테이블 위 date picker
-      dateRange : '',
+      dateRange: '',
       // 폼 여부
       dialogFormVisible: false,
       dialogFormUpdateVisible: false,
@@ -220,7 +220,7 @@ export default {
   },
   methods: {
     init() {
-        this.getExerciseRecords();
+      this.getExerciseRecords();
     },
     analysisExerciseRecord() {
       this.analysVisible = false;
@@ -230,41 +230,41 @@ export default {
       }
       prompt += "이 운동 기록을 각 운동별 중량변화와 주기등을 자세하게 분석해 주세요 친구처럼 친근하게 부탁해요";
       axios
-        .get("/api/bot/chat/analysisExercise", {
-          params: { prompt },
-        })
-        .then((response) => {
-          this.analysLoading = false;
-          this.analysisResult = response.data;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+          .get("/api/bot/chat/analysisExercise", {
+            params: {prompt},
+          })
+          .then((response) => {
+            this.analysLoading = false;
+            this.analysisResult = response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
     },
     getExerciseRecords() {
       axios
-        .get("/api/exercise/getExercises")
-        .then((response) => {
-          this.exerciseRecords = response.data;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+          .get("/api/exercise/getExercises")
+          .then((response) => {
+            this.exerciseRecords = response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
     },
     addExerciseRecord() {
       this.exerciseRecord.exerciseDate = this.formatDate(this.exerciseRecord.exerciseDate);
       alert(this.exerciseRecord.exerciseDate);
       axios
-        .post("/api/exercise/addExerciseRecord", JSON.stringify(this.exerciseRecord), {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.getExerciseRecords();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+          .post("/api/exercise/addExerciseRecord", JSON.stringify(this.exerciseRecord), {
+            headers: {"Content-Type": "application/json"},
+          })
+          .then((response) => {
+            console.log(response.data);
+            this.getExerciseRecords();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
 
       this.exerciseRecord = {
         exerciseDate: "",
@@ -284,16 +284,16 @@ export default {
     modifyExerciseRecord() {
       this.dialogFormUpdateVisible = false;
       axios
-        .put("/api/exercise/updateExerciseRecord", JSON.stringify(this.selectedRecord), {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.getExerciseRecords();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+          .put("/api/exercise/updateExerciseRecord", JSON.stringify(this.selectedRecord), {
+            headers: {"Content-Type": "application/json"},
+          })
+          .then((response) => {
+            console.log(response.data);
+            this.getExerciseRecords();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
 
     },
     deleteExerciseRecord() {
@@ -305,25 +305,25 @@ export default {
             type: 'warning',
           }
       )
-        .then(() => {
+          .then(() => {
             axios
-            .post("/api/exercise/deleteExerciseRecord", JSON.stringify(this.selectedRecord), {
-              headers: { "Content-Type": "application/json" },
-            })
-            .then((response) => {
-              console.log(response.data);
-              this.getExerciseRecords();
-              this.dialogFormUpdateVisible = false;
-            })
-            .catch((error) => {
-              console.error(error);
-            });
+                .post("/api/exercise/deleteExerciseRecord", JSON.stringify(this.selectedRecord), {
+                  headers: {"Content-Type": "application/json"},
+                })
+                .then((response) => {
+                  console.log(response.data);
+                  this.getExerciseRecords();
+                  this.dialogFormUpdateVisible = false;
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
 
             ElMessage({
               type: 'success',
               message: 'Delete completed',
             })
-        })
+          })
           .catch(() => {
             ElMessage({
               type: 'info',
@@ -332,7 +332,7 @@ export default {
           })
     },
     handleRepeatNumber() {
-      this.repeatNumber = this.repeatNumber +1;
+      this.repeatNumber = this.repeatNumber + 1;
     },
 
     formatDate(date) {
@@ -347,17 +347,17 @@ export default {
 </script>
 <style>
 .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-    font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
 .left, .right {
-    width: 45% !important;
-    margin: 0 20px; /* Add margin between left and right columns */
-    padding: 10px;
+  width: 45% !important;
+  margin: 0 20px; /* Add margin between left and right columns */
+  padding: 10px;
 }
 
 .top-date-picker {
@@ -373,6 +373,7 @@ export default {
 .top-buttons {
   display: inline;
   padding: 5px;
+
 }
 
 </style>
