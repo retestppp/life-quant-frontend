@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <!-- 모달 창 -->
+    <el-dialog v-model="dialogChartVisible" title="칼로리 차트" width="1000" height="700">
+      <MixedChart :key=chartKey :chart-data="caloriePerDayData" :options="chartOptions" :line-value="2000" :line-label="'적당 칼로리 선'"></MixedChart>
+    </el-dialog>
     <div class="left">
       <h1>Diet Record List</h1>
       <!--      테이블 위 시작-->
@@ -19,7 +23,8 @@
           </div>
           <div class="top-date-picker-button">
             <el-button type="primary" @click="getDietRecordsWithCondition">검색</el-button>
-            <el-button type="success" @click="getDietRecordsWithCondition" style="margin-left: 5px">{{ momentMonth }}월 섭취량</el-button>
+            <el-button type="success" @click="openChart" style="margin-left: 5px">{{ momentMonth }}월 섭취량</el-button>
+            <!-- <el-button type="success" @click="openChart" style="margin-left: 5px">12월 섭취량</el-button> -->
           </div>
           <!-- Date Range Picker 끝-->
         </div>
@@ -60,8 +65,7 @@
       <div class="analys-container">
         <el-card v-loading="analysLoading"
                  body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
-          <template #header> Analysis Result
-          </template>
+                 <template #header> {{userName}} 님의 식단 분석 결과 </template>
           {{ analysisResult }}
         </el-card>
       </div>
@@ -168,10 +172,14 @@
 <script>
 import axios from "axios";
 import {ElMessage, ElMessageBox} from "element-plus";
+import MixedChart from '@/components/chart/MixedChart.vue'
 
 const moment = require("moment");
 
 export default {
+  components: {
+    MixedChart
+  },
   data() {
     return {
       momentMonth: moment().month() + 1,
@@ -185,7 +193,7 @@ export default {
           label: '점심',
         },
         {
-          value: 'D',
+          value: 'E',
           label: '저녁',
         },
         {
@@ -262,8 +270,46 @@ export default {
         dietCal: 0,
         dietRemark: "",
       },
-      /*dateRange: ["2024-05-01", "2024-05-31"],*/
-      dateRange: '',
+      dateRange: ["2024-05-01", "2024-05-31"],
+      // dateRange: '',
+      userName: "",
+      chartKey: 0,
+      dialogChartVisible:false,
+        caloriePerDayData: {
+          datasets: [
+            {
+              type: 'bar',
+              label: ' Calories',
+              data: [],
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+            }
+          ],
+  
+          labels: [0]
+        },
+        chartOptions: {
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Calories[kcal]'
+              },
+              min: 0,
+              max: 4000
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Date'
+              }
+            }
+          }
+        }
     };
   },
   beforeMount() {
@@ -272,6 +318,7 @@ export default {
   methods: {
     init() {
       this.getDietRecords();
+      this.getPersonRecords();
     },
     fetchDietRecords() {
       // Fetch diet records based on the selected date range
@@ -452,6 +499,33 @@ export default {
             })
           })
     },
+    getPersonRecords() {
+      axios.get('/api/personInfo/getPersonInfos')
+          .then(response => {
+            this.userName = response.data[0].name;
+          })
+          .catch(error => {
+            console.error(error);
+          });
+    },
+    getCaloriePerDate() {
+        axios
+          .get("/api/diet/getDietDateCal")
+          .then((response)=> {
+            console.log(response)
+            this.chartKey+=1
+            this.caloriePerDayData.datasets[0].data = response.data.map(calorieData => calorieData.dietCal)
+            this.caloriePerDayData.labels = response.data.map(calorieData => calorieData.dietDate)
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      },
+      openChart() {
+        this.chartKey+=1
+        this.getCaloriePerDate()
+        this.dialogChartVisible = true
+      }
   },
 };
 </script>

@@ -59,12 +59,12 @@ export default {
         ctx.moveTo(chartArea.left, yValue);
         ctx.lineTo(chartArea.right, yValue);
         ctx.lineWidth = 2;
-        ctx.strokeStyle = 'red';
+        ctx.strokeStyle = 'green';
         ctx.stroke();
 
         if (this.lineLabel) {
           ctx.font = '12px Arial';
-          ctx.fillStyle = 'red';
+          ctx.fillStyle = 'green';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'bottom';
           ctx.fillText(this.lineLabel, (chartArea.left + chartArea.right) / 2, yValue - 5);

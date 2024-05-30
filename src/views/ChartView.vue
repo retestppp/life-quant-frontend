@@ -5,7 +5,7 @@
         <LineChart :labels="twoWeekLabels" :datasets="calorieDatasets" :options="barOptions" />
         <BarChart :labels="twoWeekLabels" :datasets="calorieDatasets" :options="barOptions" />
         <MixedChart :chart-data="datacollection" :options="barOptions"></MixedChart>
-        <MixedChart :chart-data="caloriePerDayData" :options="options" :line-value="2000" :line-label="'Recommended Calorie'"></MixedChart>
+        <MixedChart :chart-data="caloriePerDayData" :options="options" :line-value="2000" :line-label="'적당 칼로리 선'"></MixedChart>
     </div>
 </template>
 
@@ -34,14 +34,14 @@ import MixedChart from '@/components/chart/MixedChart.vue'
           {
             type: 'bar',
             label: 'Bar Dataset',
-            data: [1800, 2500, 2100, 1989],
+            data: [1800, 2500, 2100, 1989,0,500,100],
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1
           }
         ],
-        labels: this.generateLast7Days()
-        // labels: this.generateLast1Month()
+        // labels: this.generateLast7Days()
+        labels: this.generateLast1Month()
       },
       datacollection: {
         datasets: [
