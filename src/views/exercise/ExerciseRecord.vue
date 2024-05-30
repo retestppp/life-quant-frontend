@@ -21,7 +21,7 @@
               </el-date-picker>
             </div>
             <div class="top-date-picker-button">
-              <el-button type="primary" @click="getDietRecordsWithCondition">검색</el-button>
+              <el-button type="primary" @click="getExerciseRecordsWithCondition">검색</el-button>
             </div>
             <!-- Date Range Picker 끝-->
             <div class="top-buttons" align="right">
@@ -249,6 +249,31 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+    },
+    getExerciseRecordsWithCondition() {
+      if (this.dateRange && this.dateRange.length === 2) {
+        const [startDate, endDate] = this.dateRange;
+        var formattedStartDate = this.formatDate(startDate);
+        var formattedEndDate = this.formatDate(endDate);
+
+        console.log("Selected Date Range:", formattedStartDate, formattedEndDate);
+
+        // Now you can use formattedStartDate and formattedEndDate in your axios request or elsewhere
+        axios
+          .get("/api/exercise/getExercisesWithDates", {
+            params: { startDate: formattedStartDate, endDate: formattedEndDate },
+          })
+          .then((response) => {
+            console.log('getExerciseRecordsWithCondition')
+            console.log(response.data); // Log the response data for debugging
+            this.exerciseRecords = response.data;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        this.getExerciseRecords();
+      }
     },
     addExerciseRecord() {
       this.exerciseRecord.exerciseDate = this.formatDate(this.exerciseRecord.exerciseDate);
