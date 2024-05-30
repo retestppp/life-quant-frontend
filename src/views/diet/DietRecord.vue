@@ -5,8 +5,8 @@
       <!--      테이블 위 시작-->
       <div class="table-top">
         <div class="top-date-picker-group">
-          <div class="top-date-picker" style="width: 80%">
-            <!-- Date Range Picker 시작-->
+          <!-- Date Range Picker 시작-->
+          <div class="top-date-picker">
             <el-date-picker
                 v-model="dateRange"
                 type="daterange"
@@ -19,8 +19,7 @@
           </div>
           <div class="top-date-picker-button">
             <el-button type="primary" @click="getDietRecordsWithCondition">검색</el-button>
-            <el-button type="success" @click="getDietRecordsWithCondition" style="margin-left: 5px">12월 섭취량</el-button>
-<!--            <el-button type="success" @click="getDietRecordsWithCondition" style="margin-left: 5px">{{ momentMonth }}월 섭취량</el-button>-->
+            <el-button type="success" @click="getDietRecordsWithCondition" style="margin-left: 5px">{{ momentMonth }}월 섭취량</el-button>
           </div>
           <!-- Date Range Picker 끝-->
         </div>
@@ -28,20 +27,15 @@
           <el-button plain @click="dialogFormVisible = true">등록</el-button>
           <el-button type="primary" @click="analysisDietRecord" style="margin-left: 5px">분석</el-button>
         </div>
-        <!--       <el-button type="primary" @click="getDietRecordTrafficLight">신호등</el-button>-->
-        <!--        <p>This is a list of diet records.</p>-->
       </div>
-      <div>
+      <div class="traffic-light">
         나의 식단 현황 상태:
         <!-- <span id="trafficLightText">{{ trafficLight }}</span> -->
         <span id="trafficLightIcon" :class="circleClass"></span>
         <!-- <span id="trafficLightIcon" class="circle green"></span>
         <span id="trafficLightIcon" class="circle yellow"></span>
-
         <span id="trafficLightIcon" class="circle red"></span> -->
       </div>
-      <!--      테이블 위 끝-->
-
       <!--      테이블 시작-->
       <div>
         <el-table
@@ -60,24 +54,20 @@
         </el-table>
       </div>
       <!--      테이블 끝-->
-
-      <!--      분석 시작-->
-      <div :hidden="analysVisible" class="right">
-        <div class="analys-container">
-          <el-card v-loading="analysLoading"
-                   body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
-            <template #header> Analysis Result
-              <el-button plain @click="dialogFormVisible = true" class="top-buttons">
-                등록
-              </el-button>
-            </template>
-            {{ analysisResult }}
-          </el-card>
-        </div>
-      </div>
-
-      <!--      분석 끝-->
     </div>
+    <div :hidden="analysVisible" class="right">
+      <!--      분석 시작-->
+      <div class="analys-container">
+        <el-card v-loading="analysLoading"
+                 body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
+          <template #header> Analysis Result
+          </template>
+          {{ analysisResult }}
+        </el-card>
+      </div>
+    </div>
+
+    <!--      분석 끝-->
 
     <!--    모달창 시작-->
     <!--    <div class="right">-->
@@ -95,7 +85,10 @@
           <el-input v-model="dietRecord.dietName"/>
         </el-form-item>
         <el-form-item label="Meal Type">
-          <el-select v-model="dietRecord.dietMealType" placeholder="Select" style="width: 240px">
+          <el-select
+              v-model="dietRecord.dietMealType"
+              placeholder="Select"
+              style="width: 400px">
             <el-option
                 v-for="item in mealOptions"
                 :key="item.value"
@@ -104,10 +97,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Amount">
+        <el-form-item label="Amount (g)">
           <el-input v-model="dietRecord.dietAmount"/>
         </el-form-item>
-        <el-form-item label="Calorie">
+        <el-form-item label="Calorie (kcal)">
           <el-input v-model="dietRecord.dietCal"/>
         </el-form-item>
         <el-form-item label="Remark">
@@ -139,7 +132,10 @@
           <el-input v-model="selectedRecord.dietName"/>
         </el-form-item>
         <el-form-item label="Meal Type">
-          <el-select v-model="selectedRecord.dietMealType" placeholder="Select" style="width: 240px">
+          <el-select
+              v-model="selectedRecord.dietMealType"
+              placeholder="Select"
+              style="width: 400px">
             <el-option
                 v-for="item in mealOptions"
                 :key="item.value"
@@ -148,10 +144,10 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Amount">
+        <el-form-item label="Amount (g)">
           <el-input v-model="selectedRecord.dietAmount"/>
         </el-form-item>
-        <el-form-item label="Calorie">
+        <el-form-item label="Calorie (kcal)">
           <el-input v-model="selectedRecord.dietCal"/>
         </el-form-item>
         <el-form-item label="Remark">
@@ -228,14 +224,14 @@ export default {
           hidden: false
         },
         {
-          label: "Amount",
+          label: "Amount (g)",
           valueKey: "dietAmount",
           fixed: true,
           disabled: true,
           hidden: false
         },
         {
-          label: "Calorie",
+          label: "Calorie (kcal)",
           valueKey: "dietCal",
           fixed: true,
           disabled: true,
@@ -266,7 +262,8 @@ export default {
         dietCal: 0,
         dietRemark: "",
       },
-      dateRange: ["2024-05-01", "2024-05-31"],
+      /*dateRange: ["2024-05-01", "2024-05-31"],*/
+      dateRange: '',
     };
   },
   beforeMount() {
@@ -282,6 +279,7 @@ export default {
       // Implement the logic to fetch records based on the dateRange.value
     },
     analysisDietRecord() {
+      this.analysVisible = false;
       let prompt = "";
       for (let record of this.dietRecords) {
         prompt += `${record.dietDate}에 ${record.dietName}을(를) ${record.dietAmount}g 만큼 섭취하였습니다. 칼로리는 ${record.dietCal}kcal 입니다.\n`;
@@ -292,6 +290,7 @@ export default {
             params: {prompt},
           })
           .then((response) => {
+            this.analysLoading = false;
             this.analysisResult = response.data;
           })
           .catch((error) => {
@@ -480,6 +479,7 @@ export default {
 .table-top {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .top-date-picker-group {
@@ -492,8 +492,7 @@ export default {
 }
 
 .top-date-picker-button {
-display: inline;
-/*  padding-left: 5px;*/
+  display: inline;
 }
 
 .top-buttons {
@@ -505,126 +504,9 @@ display: inline;
   margin-left: 5px;
 }
 
-
-/*.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.left,
-.right {
-  width: 45%;
-  margin: 0 20px;
-  !* Add margin between left and right columns *!
-  padding: 10px;
-}
-
-.exercise-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.exercise-table th,
-.exercise-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-}
-
-.exercise-table th {
-  background-color: #f2f2f2;
-}
-
-.exercise-table tr:hover {
-  background-color: #f1f1f1;
-  cursor: pointer;
-}
-
-.form-container {
-  margin-bottom: 20px;
-  border: #007bff 1px solid;
-  padding: 10px;
-}
-
-.form-group {
-  display: flex;
-  align-items: center;
+.traffic-light {
   margin-bottom: 10px;
 }
-
-.form-group-id {
-  visibility: hidden;
-}
-
-.form-group label {
-  width: 100px;
-  !* Label width *!
-  margin-right: 10px;
-  text-align: left;
-}
-
-.form-group input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-button[type="submit"],
-.btn {
-  width: 48%;
-  margin-right: 4%;
-}
-
-button[type="submit"]:last-child,
-.btn:last-child {
-  margin-right: 0;
-}
-
-.btn-primary {
-  background-color: #007bff;
-}
-
-.btn-primary:hover {
-  background-color: #0069d9;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-}
-
-.btn-danger:hover {
-  background-color: #c82333;
-}
-
-.result-box {
-  border: 1px solid #ccc;
-  padding: 10px;
-  height: auto;
-  overflow: auto;
-  white-space: pre-wrap;
-  text-align: justify;
-  background-color: #f9f9f9;
-  margin-top: 10px;
-}*/
 .circle {
   display: inline-block;
   width: 20px;
@@ -645,5 +527,3 @@ button[type="submit"]:last-child,
   background-color: green;
 }
 </style>
-
-.top-date-picker-button {
