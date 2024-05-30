@@ -305,6 +305,7 @@ export default {
       this.dialogFormVisible = false;
     },
     selectExerciseRecord(record) {
+      this.selectedRecord.id = record.id;
       this.selectedRecord.exerciseDate = record.exerciseDate;
       this.selectedRecord.exerciseName = record.exerciseName;
       this.selectedRecord.exerciseWeight = record.exerciseWeight;
