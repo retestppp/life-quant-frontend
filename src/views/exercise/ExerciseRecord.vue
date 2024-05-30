@@ -22,7 +22,6 @@
           </div>
         </div>
         <!-- Date Range Picker 끝-->
-        <!-- 버튼들 시작-->
         <div class="top-buttons" align="right">
           <el-button plain @click="dialogFormVisible = true">
             등록
@@ -51,14 +50,18 @@
           />
         </el-table>
       </div>
-
       <br>
-      <!-- 분석 -->
-<!--      <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>-->
-      <div :hidden="analysVisible">
+    </div>
+    <!-- 분석 -->
+    <div :hidden="analysVisible" class="right">
+        <div class="analys-container">
         <el-card v-loading="analysLoading"
                  body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
-          <template #header> 김*진 님의 운동 분석 결과</template>
+          <template #header> 김*진 님의 운동 분석 결과
+            <el-button plain @click="dialogFormVisible = true" class="top-buttons">
+              등록
+            </el-button>
+          </template>
           {{ analysisResult }}
         </el-card>
       </div>
@@ -384,6 +387,11 @@ export default {
   font-family: Arial, sans-serif;
 }
 
+.analys-container {
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
 .left, .right {
   width: 45% !important;
   margin: 0 20px; /* Add margin between left and right columns */
@@ -408,8 +416,10 @@ export default {
 
 .top-buttons {
   display: inline;
+  padding: 5px;
   padding-left: 5px;
   float: right;
 }
+
 
 </style>
