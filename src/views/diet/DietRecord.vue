@@ -442,12 +442,16 @@ export default {
       this.dialogFormVisible = false;
     },
     selectDietRecord(record) {
-      this.dialogFormUpdateVisible = true;
-      this.selectedRecord = record;
-    },
-    /*    selectDietRecord(id, record) {
-          this.selectedRecord = record;
-        },*/
+        this.dialogFormUpdateVisible = true;
+        this.selectedRecord.id = record.id;
+        this.selectedRecord.dietDate = record.dietDate; 
+        this.selectedRecord.dietName = record.dietName;
+        this.selectedRecord.dietMealType = record.dietMealType;
+        this.selectedRecord.dietAmount = record.dietAmount;
+        this.selectedRecord.dietCal = record.dietCal;
+        this.selectedRecord.dietRemark = record.dietRemark;
+      },
+    
     modifyDietRecord() {
       this.dialogFormUpdateVisible = false;
       axios
