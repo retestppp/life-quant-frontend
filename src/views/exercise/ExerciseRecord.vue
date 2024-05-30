@@ -23,7 +23,7 @@
         <!-- Date Range Picker 끝-->
         <div class="top-buttons">
           <el-button plain @click="dialogFormVisible = true">등록</el-button>
-          <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>
+          <el-button type="primary" @click="analysisExerciseRecord" style="margin-left: 5px">분석</el-button>
         </div>
         <!-- 버튼들 끝-->
       </div>
@@ -72,7 +72,7 @@
         <el-form-item label="Name">
           <el-input v-model="exerciseRecord.exerciseName"/>
         </el-form-item>
-        <el-form-item label="Weight(kg)">
+        <el-form-item label="Weight (kg)">
           <el-input v-model="exerciseRecord.exerciseWeight"/>
         </el-form-item>
         <el-form-item label="Repeat">
@@ -106,7 +106,7 @@
         <el-form-item label="Name">
           <el-input v-model="selectedRecord.exerciseName"/>
         </el-form-item>
-        <el-form-item label="Weight(kg)">
+        <el-form-item label="Weight (kg)">
           <el-input v-model="selectedRecord.exerciseWeight"/>
         </el-form-item>
         <el-form-item label="Repeat">
@@ -169,7 +169,7 @@ export default {
           hidden: false
         },
         {
-          label: "Weight(kg)",
+          label: "Weight (kg)",
           valueKey: "exerciseWeight",
           fixed: true,
           disabled: true,
