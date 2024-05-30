@@ -2,8 +2,7 @@
   <div class="container">
     <div class="left">
       <h1>Exercise Record List</h1>
-      <p>This is a list of exercise records.</p>
-      <div>
+      <div class="table-top">
         <!-- Date Range Picker 시작-->
         <div class="top-date-picker-group">
           <div class="top-date-picker">
@@ -22,13 +21,9 @@
           </div>
         </div>
         <!-- Date Range Picker 끝-->
-        <div class="top-buttons" align="right">
-          <el-button plain @click="dialogFormVisible = true">
-            등록
-          </el-button>
-          <!--            <el-button @click="dialogFormUpdateVisible = true">수정</el-button>-->
+        <div class="top-buttons">
+          <el-button plain @click="dialogFormVisible = true">등록</el-button>
           <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>
-          <!--          <el-button @click="deleteData =true">삭제</el-button>-->
         </div>
         <!-- 버튼들 끝-->
       </div>
@@ -54,10 +49,13 @@
     </div>
     <!-- 분석 -->
     <div :hidden="analysVisible" class="right">
-        <div class="analys-container">
+      <div class="analys-container">
         <el-card v-loading="analysLoading"
                  body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
           <template #header> 김*진 님의 운동 분석 결과
+            <el-button plain @click="dialogFormVisible = true" class="top-buttons">
+              등록
+            </el-button>
           </template>
           {{ analysisResult }}
         </el-card>
@@ -134,8 +132,8 @@
       </template>
     </el-dialog>
   </div>
+  <!--  </div>-->
 </template>
-
 
 <script>
 import axios from "axios";
@@ -256,7 +254,7 @@ export default {
             console.error(error);
           });
     },
-        getExerciseRecordsWithCondition() {
+    getExerciseRecordsWithCondition() {
       if (this.dateRange && this.dateRange.length === 2) {
         const [startDate, endDate] = this.dateRange;
         var formattedStartDate = this.formatDate(startDate);
@@ -266,16 +264,16 @@ export default {
 
         // Now you can use formattedStartDate and formattedEndDate in your axios request or elsewhere
         axios
-          .get("/api/exercise/getExercisesWithDates", {
-            params: { startDate: formattedStartDate, endDate: formattedEndDate },
-          })
-          .then((response) => {
-            console.log(response.data); // Log the response data for debugging
-            this.exerciseRecords = response.data;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+            .get("/api/exercise/getExercisesWithDates", {
+              params: {startDate: formattedStartDate, endDate: formattedEndDate},
+            })
+            .then((response) => {
+              console.log(response.data); // Log the response data for debugging
+              this.exerciseRecords = response.data;
+            })
+            .catch((error) => {
+              console.error(error);
+            });
       } else {
         this.getExerciseRecords();
       }
@@ -389,32 +387,36 @@ export default {
 }
 
 .left, .right {
-  width: 45% !important;
+  width: 49% !important;
   margin: 0 20px; /* Add margin between left and right columns */
   padding: 10px;
 }
 
+.table-top {
+  display: flex;
+  justify-content: space-between;
+}
+
 .top-date-picker-group {
   display: block;
-  padding-right: 5px;
-  float: left;
 }
 
 .top-date-picker {
   display: inline;
-  padding: 5px;
+  padding-right: 5px;
 }
 
 .top-date-picker-button {
   display: inline;
-  padding: 5px;
+  /*  padding-left: 5px;*/
 }
 
 .top-buttons {
   display: inline;
-  padding: 5px;
   padding-left: 5px;
-  float: right;
 }
 
+.el-button+ {
+  margin-left: 5px;
+}
 </style>
