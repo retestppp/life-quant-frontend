@@ -58,9 +58,6 @@
         <el-card v-loading="analysLoading"
                  body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
           <template #header> 김*진 님의 운동 분석 결과
-            <el-button plain @click="dialogFormVisible = true" class="top-buttons">
-              등록
-            </el-button>
           </template>
           {{ analysisResult }}
         </el-card>
@@ -137,7 +134,6 @@
       </template>
     </el-dialog>
   </div>
-  <!--  </div>-->
 </template>
 
 
@@ -420,6 +416,5 @@ export default {
   padding-left: 5px;
   float: right;
 }
-
 
 </style>
