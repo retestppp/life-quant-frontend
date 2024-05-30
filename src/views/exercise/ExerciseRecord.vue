@@ -4,28 +4,34 @@
       <h1>Exercise Record List</h1>
       <p>This is a list of exercise records.</p>
       <div>
-        <div class="top-date-picker">
-          <el-date-picker
-              v-model="dateRange"
-              type="daterange"
-              range-separator="To"
-              start-placeholder="Start date"
-              end-placeholder="End date"
-              @change="fetchDietRecords"
-          >
-          </el-date-picker>
-        </div>
-        <div class="top-date-picker-button">
-          <el-button type="primary" @click="getExerciseRecordsWithCondition">검색</el-button>
+        <!-- Date Range Picker 시작-->
+        <div class="top-date-picker-group">
+          <div class="top-date-picker">
+            <el-date-picker
+                v-model="dateRange"
+                type="daterange"
+                range-separator="To"
+                start-placeholder="Start date"
+                end-placeholder="End date"
+                @change="fetchExerciseRecords"
+            >
+            </el-date-picker>
+          </div>
+          <div class="top-date-picker-button">
+            <el-button type="primary" @click="getExerciseRecordsWithCondition">검색</el-button>
+          </div>
         </div>
         <!-- Date Range Picker 끝-->
+        <!-- 버튼들 시작-->
         <div class="top-buttons" align="right">
           <el-button plain @click="dialogFormVisible = true">
             등록
           </el-button>
           <!--            <el-button @click="dialogFormUpdateVisible = true">수정</el-button>-->
-          <el-button @click="deleteData =true">삭제</el-button>
+          <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>
+          <!--          <el-button @click="deleteData =true">삭제</el-button>-->
         </div>
+        <!-- 버튼들 끝-->
       </div>
 
       <!-- 테이블 -->
@@ -48,7 +54,7 @@
 
       <br>
       <!-- 분석 -->
-      <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>
+<!--      <el-button type="primary" @click="analysisExerciseRecord">분석</el-button>-->
       <div :hidden="analysVisible">
         <el-card v-loading="analysLoading"
                  body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
@@ -384,6 +390,12 @@ export default {
   padding: 10px;
 }
 
+.top-date-picker-group {
+  display: block;
+  padding-right: 5px;
+  float: left;
+}
+
 .top-date-picker {
   display: inline;
   padding: 5px;
@@ -396,8 +408,8 @@ export default {
 
 .top-buttons {
   display: inline;
-  padding: 5px;
-
+  padding-left: 5px;
+  float: right;
 }
 
 </style>
