@@ -417,7 +417,7 @@ export default {
     },
     addDietRecord() {
       this.dietRecord.dietDate = this.formatDate(this.dietRecord.dietDate);
-      alert(this.dietRecord.dietDate);
+      // alert(this.dietRecord.dietDate);
       axios
           .post("/api/diet/addDietRecord", JSON.stringify(this.dietRecord), {
             headers: {

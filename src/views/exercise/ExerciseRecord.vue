@@ -281,7 +281,7 @@ export default {
     },
     addExerciseRecord() {
       this.exerciseRecord.exerciseDate = this.formatDate(this.exerciseRecord.exerciseDate);
-      alert(this.exerciseRecord.exerciseDate);
+      // alert(this.exerciseRecord.exerciseDate);
       axios
           .post("/api/exercise/addExerciseRecord", JSON.stringify(this.exerciseRecord), {
             headers: {"Content-Type": "application/json"},
