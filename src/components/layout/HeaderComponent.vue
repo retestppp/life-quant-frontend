@@ -38,7 +38,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #00b8ff;
+  background-color: #002060;
   color: #ffffff;
   font-size: 30px;
   font-weight: bold;
@@ -74,6 +74,11 @@
   color: #ffffff;
   text-decoration: none;
 }
+
+.mx-1 {
+  color: #F2F2F2;
+}
+
 </style>
 <script setup>
 </script>

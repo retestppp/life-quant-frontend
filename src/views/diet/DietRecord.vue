@@ -65,7 +65,7 @@
       <!--      분석 시작-->
       <div class="analys-container">
         <el-card v-loading="analysLoading"
-                 body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px">
+                 body-style="height:auto;white-space:pre-wrap;overflow:auto;padding:10px;margin-top:10px;text-align:left">
                  <template #header> {{userName}} 님의 식단 분석 결과 </template>
           {{ analysisResult }}
         </el-card>
