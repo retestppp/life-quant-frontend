@@ -114,7 +114,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  min-height: calc(100vh - 150px); /* Adjust according to your header and footer height */
-  box-sizing: border-box;
+  box-sizing: border-box; height: auto;
+  min-height: 100%;
+  padding-bottom: 58px;
 }
 </style>

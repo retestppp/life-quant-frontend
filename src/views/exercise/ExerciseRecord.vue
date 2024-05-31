@@ -35,6 +35,7 @@
             :data="exerciseRecords"
             style="width: 100%"
             @row-click="selectExerciseRecord"
+            max-height="450"
         >
           <el-table-column
               v-for="column in exerciseTable"

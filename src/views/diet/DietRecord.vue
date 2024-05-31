@@ -2,7 +2,7 @@
   <div class="container">
     <!-- 모달 창 -->
     <el-dialog v-model="dialogChartVisible" title="칼로리 차트" width="1000" height="700">
-      <MixedChart :key=chartKey :chart-data="caloriePerDayData" :options="chartOptions" :line-value="2000" :line-label="'적당 칼로리 선'"></MixedChart>
+      <MixedChart :key=chartKey :chart-data="caloriePerDayData" :options="chartOptions" :line-value="recommendedCalorie" :line-label="'적정 칼로리 선: '+recommendedCalorie"></MixedChart>
     </el-dialog>
     <div class="left">
       <h1>Diet Record List</h1>
@@ -48,6 +48,7 @@
             :data="dietRecords"
             style="width: 100%"
             @row-click="selectDietRecord"
+            max-height="450"
         >
           <el-table-column
               v-for="column in dietTable"
@@ -274,6 +275,7 @@ export default {
       // dateRange: '',
       userName: "",
       chartKey: 0,
+      recommendedCalorie: 0,
       dialogChartVisible:false,
         caloriePerDayData: {
           datasets: [
@@ -507,6 +509,7 @@ export default {
       axios.get('/api/personInfo/getPersonInfos')
           .then(response => {
             this.userName = response.data[0].name;
+            this.recommendedCalorie = response.data[0].adjustCal;
           })
           .catch(error => {
             console.error(error);

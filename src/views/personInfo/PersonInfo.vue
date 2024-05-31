@@ -10,6 +10,7 @@
             :data="personRecords"
             style="width: 100%"
             @row-click="selectPersonRecord"
+            max-height="450"
         >
           <el-table-column
               v-for="column in personTable"

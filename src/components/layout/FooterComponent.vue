@@ -34,9 +34,9 @@ export default {
   justify-content: space-between;
   background-color: #f8f8f8;
   border-top: 1px solid #e7e7e7;
-  /* position: fixed;
+  position: fixed;
   bottom: 0;
-  left: 0; */
+  left: 0;
   width: 100%;
   box-sizing: border-box;
 }
