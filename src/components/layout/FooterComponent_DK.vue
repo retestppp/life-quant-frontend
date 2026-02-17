@@ -1,42 +1,27 @@
 <template>
   <footer class="footer">
     <div class="footer-left">
-      <p>
-        표광진 | Backend Developer (Java · Spring · SAP BTP · MuleSoft)
-      </p>
-      <p>
-        © 2026 PYO KWANG JIN. All Rights Reserved.
-      </p>
-      <p>
-        📧 pkjhj9746@naver.com | 📱 010-2462-9746
-      </p>
+      <p>㈜디케이비엠시 ㅣ 대표 : 배창욱 ㅣ 사업자등록번호 : 210-81-65384 ㅣ <a href="#">개인정보 처리방침</a></p>
+      <p>Copyright © 2021 DK BMC Co.,Ltd. All Rights Reserved.</p>
     </div>
-
     <div class="footer-right">
       <div class="footer-contact">
-        <p>
-          <strong>Location</strong><br />
-          Gyeonggi-do, Korea
-        </p>
-
+        <p><strong>Address</strong><br>434 Bongeunsa-ro,<br>Gangnam-gu, Seoul</p>
+        <p><strong>Tel</strong><br>02-514-3587</p>
+        <p><strong>Fax</strong><br>02-956-3636</p>
         <div class="footer-social">
           <strong>Social</strong>
           <div>
-            <a href="https://github.com/본인깃주소" target="_blank">
-              <img src="@/assets/icon/github-icon.png" alt="GitHub" />
-            </a>
-            <a href="www.linkedin.com/in/광진-표-52a1683a3" target="_blank">
-              <img src="@/assets/icon/linkedin-icon.png" alt="LinkedIn" />
-            </a>
-            <a href="https://retestppp.github.io/" target="_blank">
-              <img src="@/assets/icon/blog-icon.png" alt="Blog" />
-            </a>
+            <a href="#"><img src="@/assets/facebook-icon.png" alt="Facebook"></a>
+            <a href="#"><img src="@/assets/blog-icon.png" alt="Blog"></a>
+            <a href="#"><img src="@/assets/linkedin-icon.png" alt="LinkedIn"></a>
           </div>
         </div>
       </div>
     </div>
   </footer>
 </template>
+
 <script>
 export default {
   name: "FooterComponent",
