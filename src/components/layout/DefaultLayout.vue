@@ -1,20 +1,16 @@
 <template>
-    <div>
-      <Header></Header>
-      <router-view></router-view>
-      <Footer></Footer>
-    </div>
+  <div>
+    <HeaderComponent />
+    <router-view />
+    <FooterComponent />
+  </div>
 </template>
 
 <script>
-
-import Header from '@/components/layout/HeaderComponent.vue';
-import Footer from '@/components/layout/FooterComponent.vue';
+import HeaderComponent from "@/components/layout/HeaderComponent.vue";
+import FooterComponent from "@/components/layout/FooterComponent.vue";
 
 export default {
-  components: {
-    Header,
-    Footer,
-  }
-}
+  components: { HeaderComponent, FooterComponent },
+};
 </script>

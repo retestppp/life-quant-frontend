@@ -1,12 +1,47 @@
 import { createRouter, createWebHistory } from "vue-router";
-import routes from "./routes"; // ./routes/index.js 를 의미
+// import routes from "./routes"; // ./routes/index.js 를 의미 ✅ 여기서 가져온 routes를 사용
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes: [
-    { path: "/", redirect: "/dashboard" },
-    ...routes,
-    { path: "/:pathMatch(.*)*", redirect: "/dashboard" }, // Vue3 404
+    // ✅ 로그인 등 헤더/푸터 없는 페이지 (필요하면)
+    {
+      path: "/login",
+      component: () => import("@/components/layout/EmptyLayout.vue"),
+      children: [
+        { path: "", name: "login", component: () => import("@/views/auth/LoginPage.vue") },
+      ],
+    },
+      // ✅ 여기부터는 전부 DefaultLayout(헤더/푸터 포함)
+    {
+      path: "/",
+      component: () => import("@/components/layout/DefaultLayout.vue"),
+      children: [
+        { path: "", redirect: "/dashboard" },
+
+        { path: "dashboard", name: "dashboard", component: () => import("@/views/dashboard/DashboardHome.vue") },
+
+        { path: "health/exercise", name: "exercise", component: () => import("@/views/health/ExerciseRecord.vue") },
+        { path: "health/diet", name: "diet", component: () => import("@/views/health/DietRecord.vue") },
+        { path: "health/ai", name: "healthAi", component: () => import("@/views/health/HealthAiCoach.vue") },
+
+        { path: "investment/index", name: "marketIndex", component: () => import("@/views/investment/MarketIndex.vue") },
+        { path: "investment/analysis", name: "marketAnalysis", component: () => import("@/views/investment/MarketAnalysis.vue") },
+
+        { path: "reading/review", name: "bookReview", component: () => import("@/views/reading/BookReview.vue") },
+        { path: "self/insight", name: "insight", component: () => import("@/views/self/PersonalInsight.vue") },
+
+        { path: "profile", name: "profile", component: () => import("@/views/profile/PersonInfo.vue") },
+      ],
+    },
+
+    // // 404
+    // { path: "*", redirect: "/dashboard" },
+    // 404 (Vue Router 4)
+    { path: "/:pathMatch(.*)*", redirect: "/dashboard" },
+    // { path: "/", redirect: "/dashboard" },
+    // ...routes,
+    // { path: "/:pathMatch(.*)*", redirect: "/dashboard" }, // Vue3 404
   ],
   scrollBehavior() {
     return { left: 0, top: 0 };
