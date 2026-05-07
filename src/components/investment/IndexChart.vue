@@ -1,11 +1,16 @@
 <template>
   <div class="wrap">
-    <div class="title">차트 영역</div>
+    <div class="title">차트</div>
     <div class="desc">선택된 지수: <b>{{ active }}</b></div>
 
-    <!-- 나중에 여기 안에 TradingView iframe/embed 붙이면 됨 -->
     <div class="box">
-      (여기에 코스피/나스닥/금/SP500/BTC 차트가 나오게 만들 예정)
+      <iframe
+        :key="iframeKey"
+        class="tv-iframe"
+        :src="tvSrc"
+        frameborder="0"
+        allowfullscreen
+      />
     </div>
   </div>
 </template>
@@ -16,6 +21,42 @@ export default {
   props: {
     active: { type: String, default: "KOSPI" },
   },
+  data() {
+    return {
+      iframeKey: 0,
+      symbolMap: {
+        // 🇰🇷 코스피 대체 (미국 상장 한국 ETF)
+        KOSPI: "AMEX:EWY",   // iShares MSCI South Korea ETF
+        NASDAQ: "NASDAQ:QQQ",
+        GOLD: "OANDA:XAUUSD",
+        SP500: "AMEX:SPY",
+        BTC: "COINBASE:BTCUSD",
+      },
+    };
+  },
+  computed: {
+    tvSrc() {
+      const symbol = this.symbolMap[this.active] || "KRX:KOSPI";
+
+      // ⚠️ 파라미터를 최소로(안정)
+      const params = new URLSearchParams({
+        symbol,
+        interval: "60",
+        theme: "dark",
+        timezone: "Asia/Seoul",
+        locale: "kr",
+        hide_side_toolbar: "0",
+        allow_symbol_change: "0",
+      });
+
+      return `https://s.tradingview.com/widgetembed/?${params.toString()}`;
+    },
+  },
+  watch: {
+    active() {
+      this.iframeKey += 1; // 선택 바뀔 때 강제 리로드
+    },
+  },
 };
 </script>
 
@@ -23,13 +64,17 @@ export default {
 .wrap { display: grid; gap: 8px; }
 .title { font-weight: 900; }
 .desc { color: #374151; }
+
 .box {
-  height: 420px;
-  border: 1px dashed #d1d5db;
+  height: 520px;
   border-radius: 12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#6b7280;
+  overflow: hidden;
+  border: 1px solid #1f2937;
+  background: #0b1220;
+}
+
+.tv-iframe {
+  width: 100%;
+  height: 100%;
 }
 </style>
